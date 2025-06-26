@@ -2,7 +2,7 @@
 
 A responsive, single-page web application designed to help users **create**, **track**, and **manage** their personal development goals. Built with **HTML**, **Tailwind CSS**, and **vanilla JavaScript**, this app provides a clean, intuitive, and mobile-friendly interface for personal growth planning.
 
-🚀 **Live Demo**: 
+🚀 **Live Demo**: https://cyberangelo-king.github.io/pdp/
 
 ---
 
