@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Development Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* Smooth transition for dark mode */
+        .transition-colors-background {
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+    </style>
+    <script>
+        // Configuration for Tailwind CSS dark mode
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 transition-colors-background">
+
+    <div id="app" class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- App content will be rendered here by JavaScript -->
+    </div>
+
+    <script>
+        // --- Angelo's Personal Development Plan App ---
+        // A project crafted with care.
+
+        // --- DATA & STATE MANAGEMENT ---
+
+        const initialDevelopmentAreas = [
+            {
+              title: "Leadership Skills",
+              icon: "Users",
+              color: "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300",
+              goals: [
+                { id: "lead1", text: "Complete a leadership assessment (DISC, StrengthsFinder, or 360 review)", timeline: "Month 1" },
+                { id: "lead2", text: "Read 2 leadership books (suggestions: 'Radical Candor', 'The Culture Code')", timeline: "Months 1-3" },
+                { id: "lead3", text: "Practice active listening in 3 meetings per week", timeline: "Ongoing" },
+                { id: "lead4", text: "Mentor one junior colleague or peer", timeline: "Months 2-6" },
+                { id: "lead5", text: "Lead a cross-functional project or initiative", timeline: "Months 3-6" },
+              ]
+            },
+            {
+              title: "Career Advancement",
+              icon: "TrendingUp",
+              color: "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300",
+              goals: [
+                { id: "career1", text: "Schedule quarterly check-ins with manager about growth opportunities", timeline: "Monthly" },
+                { id: "career2", text: "Identify 3 key skills needed for next role and create learning plan", timeline: "Month 1" },
+                { id: "career3", text: "Attend 2 industry conferences or networking events", timeline: "Months 2-5" },
+                { id: "career4", text: "Update resume and LinkedIn profile", timeline: "Month 2" },
+                { id: "career5", text: "Complete a relevant certification or course", timeline: "Months 3-6" },
+              ]
+            },
+            {
+              title: "Poetry & Creative Skills",
+              icon: "BookOpen",
+              color: "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300",
+              goals: [
+                { id: "creative1", text: "Write 3 poems per week (minimum 15 minutes daily)", timeline: "Daily" },
+                { id: "creative2", text: "Join a local poetry group or online writing community", timeline: "Month 1" },
+                { id: "creative3", text: "Read 1 poetry collection per month", timeline: "Monthly" },
+                { id: "creative4", text: "Attend 2 poetry readings or literary events", timeline: "Months 2-5" },
+                { id: "creative5", text: "Submit work to 3 literary magazines or contests", timeline: "Months 4-6" },
+              ]
+            },
+            {
+              title: "Habits & Personal Growth",
+              icon: "Target",
+              color: "bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300",
+              goals: [
+                { id: "habits1", text: "Establish morning routine (30 min: meditation, journaling, or exercise)", timeline: "Week 1" },
+                { id: "habits2", text: "Track 3 key habits daily for 21 days, then maintain", timeline: "Ongoing" },
+                { id: "habits3", text: "Read 15 minutes daily (leadership + creative books)", timeline: "Daily" },
+                { id: "habits4", text: "Practice weekly reflection and planning sessions", timeline: "Weekly" },
+                { id: "habits5", text: "Complete a 30-day challenge (fitness, mindfulness, or creativity)", timeline: "Month 3" },
+              ]
+            },
+        ];
+
+        let state = {
+            developmentAreas: [],
+            checkedItems: {},
+            darkMode: false,
+        };
+
+        // --- LOCALSTORAGE FUNCTIONS ---
+
+        function saveData() {
+            localStorage.setItem('pdpState', JSON.stringify(state));
+        }
+
+        function loadData() {
+            const savedState = localStorage.getItem('pdpState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                // Ensure loaded data structure is valid
+                if (parsedState.developmentAreas && parsedState.checkedItems) {
+                    state = parsedState;
+                } else {
+                     state.developmentAreas = JSON.parse(JSON.stringify(initialDevelopmentAreas));
+                }
+            } else {
+                // Deep copy to avoid modifying the initial constant
+                state.developmentAreas = JSON.parse(JSON.stringify(initialDevelopmentAreas));
+            }
+            state.darkMode = localStorage.getItem('pdpDarkMode') === 'true';
+        }
+        
+        // --- CORE APPLICATION LOGIC ---
+
+        function toggleCheck(id) {
+            state.checkedItems[id] = !state.checkedItems[id];
+            render();
+        }
+
+        function toggleDarkMode() {
+            state.darkMode = !state.darkMode;
+            localStorage.setItem('pdpDarkMode', state.darkMode);
+            render();
+        }
+        
+        function addNewTask(areaIndex, taskText) {
+            if (!taskText || taskText.trim() === '') return;
+
+            const newTask = {
+              id: `custom_${Date.now()}`,
+              text: taskText.trim(),
+              timeline: "Custom Task",
+              isCustom: true // Flag to identify custom tasks
+            };
+            
+            state.developmentAreas[areaIndex].goals.push(newTask);
+            render();
+        }
+
+        function deleteTask(areaIndex, taskId) {
+            const area = state.developmentAreas[areaIndex];
+            area.goals = area.goals.filter(goal => goal.id !== taskId);
+            delete state.checkedItems[taskId]; // Also uncheck it
+            render();
+        }
+        
+        function clearCompletedTasks(areaIndex) {
+            const area = state.developmentAreas[areaIndex];
+            const completedTaskIds = area.goals
+              .filter(goal => state.checkedItems[goal.id])
+              .map(goal => goal.id);
+
+            area.goals = area.goals.filter(goal => !state.checkedItems[goal.id]);
+            
+            completedTaskIds.forEach(id => {
+                delete state.checkedItems[id];
+            });
+
+            render();
+        }
+
+        // --- RENDERING ENGINE ---
+
+        const appContainer = document.getElementById('app');
+
+        function render() {
+            // Update dark mode class on <html> element
+            document.documentElement.classList.toggle('dark', state.darkMode);
+
+            const totalGoals = state.developmentAreas.reduce((sum, area) => sum + area.goals.length, 0);
+            const completedGoals = Object.values(state.checkedItems).filter(Boolean).length;
+            const overallProgress = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
+            
+            // --- MAIN HEADER ---
+            let appHTML = `
+                <div class="flex justify-between items-center mb-6 sm:mb-8">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100">Personal Development Plan</h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base">Your roadmap to growth</p>
+                    </div>
+                    <button data-action="toggleDarkMode" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 transition-colors-background">
+                        <i data-lucide="${state.darkMode ? 'sun' : 'moon'}" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    </button>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div class="flex items-center justify-center space-x-3">
+                    <i data-lucide="calendar-check" class="w-5 h-5 text-slate-600 dark:text-slate-400"></i>
+                    <span class="font-semibold text-sm sm:text-base text-slate-700 dark:text-slate-200">Overall Progress: ${overallProgress}%</span>
+                  </div>
+                  <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mt-2">
+                    <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: ${overallProgress}%"></div>
+                  </div>
+                </div>
+            `;
+
+            // --- DEVELOPMENT AREAS GRID ---
+            appHTML += '<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">';
+            
+            state.developmentAreas.forEach((area, index) => {
+                const completed = area.goals.filter(goal => state.checkedItems[goal.id]).length;
+                const completionRate = area.goals.length > 0 ? Math.round((completed / area.goals.length) * 100) : 0;
+
+                appHTML += `
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-6 transition-shadow hover:shadow-lg dark:hover:shadow-slate-700/50 flex flex-col">
+                        <div class="flex items-start justify-between mb-4 flex-wrap gap-2">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 rounded-lg ${area.color}">
+                                    <i data-lucide="${area.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <h2 class="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-100">${area.title}</h2>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                <div class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">${completionRate}% Complete</div>
+                                <div class="w-20 sm:w-24 bg-slate-200 dark:bg-slate-700 rounded-full h-2 mt-1">
+                                    <div class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: ${completionRate}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="space-y-3 flex-grow">
+                `;
+
+                // --- GOALS LIST ---
+                area.goals.forEach(goal => {
+                    const isChecked = state.checkedItems[goal.id];
+                    appHTML += `
+                        <div class="flex items-start space-x-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 group">
+                            <button data-action="toggleCheck" data-id="${goal.id}" class="mt-0.5 flex-shrink-0">
+                                <i data-lucide="${isChecked ? 'check-circle-2' : 'circle'}" class="w-5 h-5 ${isChecked ? 'text-green-600 dark:text-green-500' : 'text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300'}"></i>
+                            </button>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm ${isChecked ? 'line-through text-slate-500 dark:text-slate-400' : 'text-slate-700 dark:text-slate-200'}">${goal.text}</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${goal.timeline}</p>
+                            </div>
+                            ${goal.isCustom ? `<button data-action="deleteTask" data-area-index="${index}" data-id="${goal.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-opacity"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : ''}
+                        </div>
+                    `;
+                });
+
+                appHTML += '</div>';
+
+                // --- ADD TASK FORM ---
+                appHTML += `
+                    <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                         <div class="flex space-x-2">
+                             <input type="text" data-action="newTaskInput" data-area-index="${index}" class="flex-grow bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-1.5 text-sm placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-slate-100" placeholder="Add a new task...">
+                             <button data-action="addNewTask" data-area-index="${index}" class="bg-blue-600 text-white px-3 py-1.5 rounded-md hover:bg-blue-700 transition-colors-background flex-shrink-0 text-sm font-semibold">Add</button>
+                         </div>
+                         ${completed > 0 ? `<button data-action="clearCompleted" data-area-index="${index}" class="text-xs text-slate-500 hover:text-red-500 dark:hover:text-red-400 mt-3 w-full text-center">Clear ${completed} completed task(s)</button>` : ''}
+                    </div>
+                `;
+                
+                appHTML += '</div>'; // End of card
+            });
+
+            appHTML += '</div>'; // End of grid
+
+            // --- FOOTER / WATERMARK ---
+            appHTML += `
+                <div class="text-center mt-10 py-4 text-sm text-slate-400 dark:text-slate-600">
+                    <p>Angelo's Plan</p>
+                </div>
+            `;
+            
+            appContainer.innerHTML = appHTML;
+            lucide.createIcons(); // IMPORTANT: Render icons after updating HTML
+            saveData();
+        }
+
+
+        // --- EVENT LISTENER ---
+        // Use event delegation for better performance
+        appContainer.addEventListener('click', (e) => {
+            const target = e.target.closest('button, [data-action]');
+            if (!target) return;
+
+            const { action, id, areaIndex } = target.dataset;
+
+            if (action === 'toggleCheck') {
+                toggleCheck(id);
+            }
+            if (action === 'toggleDarkMode') {
+                toggleDarkMode();
+            }
+            if (action === 'addNewTask') {
+                const input = appContainer.querySelector(`input[data-area-index="${areaIndex}"]`);
+                addNewTask(areaIndex, input.value);
+                input.value = ''; // Clear input after adding
+            }
+            if (action === 'deleteTask') {
+                deleteTask(areaIndex, id);
+            }
+            if (action === 'clearCompleted') {
+                clearCompletedTasks(areaIndex);
+            }
+        });
+        
+        // Handle 'Enter' key press for adding new tasks
+        appContainer.addEventListener('keypress', (e) => {
+             if (e.key === 'Enter' && e.target.dataset.action === 'newTaskInput') {
+                const { areaIndex } = e.target.dataset;
+                addNewTask(areaIndex, e.target.value);
+                e.target.value = '';
+             }
+        });
+
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            render();
+        });
+    </script>
+</body>
+</html>
