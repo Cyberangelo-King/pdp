@@ -1,56 +1,24 @@
-# Personal Development Plan (PDP) Web App
+# PDP — Personal Development Plan
 
-A responsive, single-page web application designed to help users **create**, **track**, and **manage** their personal development goals. Built with **HTML**, **Tailwind CSS**, and **vanilla JavaScript**, this app provides a clean, intuitive, and mobile-friendly interface for personal growth planning.
+A lightweight personal operating system for turning intentions into visible progress.
 
-🚀 **Live Demo**: https://cyberangelo-king.github.io/pdp/
+## What it does
+- Organises goals by development area
+- Tracks task completion and progress
+- Persists state locally in the browser
+- Supports light and dark themes
+- Works across phone, tablet and desktop
 
----
+## Why it exists
+PDP is an early product experiment around a simple question: **can progress become easier to see, review and act on?**
 
-## ✨ Features
+The project deliberately uses a small client-side architecture so the core experience remains fast, portable and private.
 
-- **Interactive Goal Tracking**  
-  Check off completed goals and watch your progress update in real-time.
+## Stack
+HTML · Tailwind CSS · JavaScript · Lucide Icons
 
-- **Dynamic Progress Bars**  
-  Visual indicators display completion rates for each development area and the overall plan.
+## Project process
+**Problem → model the areas → design the interaction → implement → test persistence → refine the interface.**
 
-- **Custom Task Management**  
-  Add your own tasks to any development area and delete them as needed.
-
-- **Light & Dark Modes**  
-  Toggle between light and dark themes for a comfortable viewing experience.
-
-- **Persistent Local Storage**  
-  Your data (goals, progress, and theme preference) is saved in your browser and remains between sessions.
-
-- **Fully Responsive Design**  
-  Seamless layout across all devices — mobile phones, tablets, and desktops.
-
-- **Clean, Modern UI**  
-  Built with Tailwind CSS and Lucide Icons for a polished and minimalist experience.
-
----
-
-## 🧰 Built With
-
-- **HTML5**
-- **Tailwind CSS** – Utility-first styling and responsive design
-- **JavaScript (ES6+)** – Application logic and interactivity
-- **Lucide Icons** – Clean and elegant icon set
-- **Google Fonts** – 'Inter' typeface for typography
-
----
-
-## 🚀 Getting Started
-
-This project is a single HTML file that runs in any modern web browser.
-
-### 📋 Prerequisites
-
-- A modern web browser (e.g., Chrome, Firefox, Safari)
-
-### 💻 Installation & Usage
-
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/Cyberangelo-King/pdp.git
+## Status
+Stable learning/product experiment. Future evolution: recurring reviews, measurable outcomes, data export/import and a stronger reflection loop.
